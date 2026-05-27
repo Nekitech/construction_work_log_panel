@@ -1,0 +1,397 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/work-logs": {
+      "get": {
+        "operationId": "WorkLogController_findAll",
+        "parameters": [
+          {
+            "name": "dateFrom",
+            "required": false,
+            "in": "query",
+            "description": "Filter from date (inclusive)",
+            "schema": {
+              "example": "2024-01-01",
+              "type": "string"
+            }
+          },
+          {
+            "name": "dateTo",
+            "required": false,
+            "in": "query",
+            "description": "Filter to date (inclusive)",
+            "schema": {
+              "example": "2024-12-31",
+              "type": "string"
+            }
+          },
+          {
+            "name": "executorName",
+            "required": false,
+            "in": "query",
+            "description": "Filter by executor name (case-insensitive partial match)",
+            "schema": {
+              "example": "Иванов",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "default": "desc",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 10,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedWorkLogResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "work-logs"
+        ]
+      },
+      "post": {
+        "operationId": "WorkLogController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateWorkLogDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkLogResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "work-logs"
+        ]
+      }
+    },
+    "/work-logs/{id}": {
+      "get": {
+        "operationId": "WorkLogController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkLogResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "work-logs"
+        ]
+      },
+      "patch": {
+        "operationId": "WorkLogController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateWorkLogDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkLogResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": ""
+          },
+          "404": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "work-logs"
+        ]
+      },
+      "delete": {
+        "operationId": "WorkLogController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "404": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "work-logs"
+        ]
+      }
+    },
+    "/work-types": {
+      "get": {
+        "operationId": "WorkTypesController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WorkTypeResponseDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "work-types"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Construction Work Log API",
+    "description": "API for managing construction site work log entries",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "schemas": {
+      "WorkTypeResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          },
+          "unit": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "unit"
+        ]
+      },
+      "WorkLogResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "date": {
+            "type": "string"
+          },
+          "workTypeId": {
+            "type": "number"
+          },
+          "workType": {
+            "$ref": "#/components/schemas/WorkTypeResponseDto"
+          },
+          "volume": {
+            "type": "number"
+          },
+          "executorName": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "date",
+          "workTypeId",
+          "workType",
+          "volume",
+          "executorName",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "PaginatedWorkLogResponseDto": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WorkLogResponseDto"
+            }
+          },
+          "total": {
+            "type": "number"
+          },
+          "page": {
+            "type": "number"
+          },
+          "limit": {
+            "type": "number"
+          },
+          "totalPages": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "data",
+          "total",
+          "page",
+          "limit",
+          "totalPages"
+        ]
+      },
+      "CreateWorkLogDto": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "example": "2024-05-15",
+            "description": "ISO date string (YYYY-MM-DD)"
+          },
+          "workTypeId": {
+            "type": "number",
+            "example": 1
+          },
+          "volume": {
+            "type": "number",
+            "example": 24.5
+          },
+          "executorName": {
+            "type": "string",
+            "example": "Иванов Иван Иванович"
+          }
+        },
+        "required": [
+          "date",
+          "workTypeId",
+          "volume",
+          "executorName"
+        ]
+      },
+      "UpdateWorkLogDto": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "example": "2024-05-15"
+          },
+          "workTypeId": {
+            "type": "number",
+            "example": 1
+          },
+          "volume": {
+            "type": "number",
+            "example": 24.5
+          },
+          "executorName": {
+            "type": "string",
+            "example": "Иванов Иван Иванович"
+          }
+        }
+      }
+    }
+  }
+}
