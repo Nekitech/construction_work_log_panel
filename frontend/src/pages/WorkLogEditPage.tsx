@@ -14,8 +14,23 @@ export function WorkLogEditPage() {
 	const navigate = useNavigate()
 	const entryId = Number(id)
 
-	const { data: entry, isLoading } = useWorkLogControllerFindOne(entryId)
+	const { data: entry, isLoading, isError } = useWorkLogControllerFindOne(
+		entryId,
+		{ query: { enabled: !Number.isNaN(entryId) } },
+	)
 	const { updateMutation, formValuesToUpdateDto } = useWorkLogMutations()
+
+	if (Number.isNaN(entryId) || isError) {
+		return (
+			<div className="space-y-6">
+				<Button variant="ghost" size="sm" onClick={() => navigate('/work-logs')} className="-ml-2">
+					<ChevronLeft className="mr-1 size-4" />
+					Назад к журналу
+				</Button>
+				<p className="text-sm text-destructive">Запись не найдена.</p>
+			</div>
+		)
+	}
 
 	async function handleSubmit(values: WorkLogFormValues) {
 		await updateMutation.mutateAsync({ id: entryId, data: formValuesToUpdateDto(values) })
@@ -57,6 +72,7 @@ export function WorkLogEditPage() {
 						)
 					: (
 							<WorkLogForm
+								mode="edit"
 								defaultValues={defaultValues}
 								onSubmit={handleSubmit}
 								isSubmitting={updateMutation.isPending}

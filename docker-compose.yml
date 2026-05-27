@@ -28,7 +28,7 @@ services:
       postgres:
         condition: service_healthy
     command: >
-      sh -c "npx prisma migrate deploy && npx prisma db seed && npx ts-node prisma/seed-logs.ts && node dist/src/main"
+      sh -c "npx prisma migrate deploy && npx ts-node prisma/seed.ts && npx ts-node prisma/seed-logs.ts && node dist/src/main"
     develop:
       watch:
         - action: sync

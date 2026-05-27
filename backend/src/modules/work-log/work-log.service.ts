@@ -38,7 +38,7 @@ export class WorkLogService {
     return entry
   }
 
-  create(dto: CreateWorkLogDto) {
+  async create(dto: CreateWorkLogDto) {
     const { date, workTypeId, volume, executorName } = dto
     return this.prisma.workLog.create({
       data: { date: new Date(date), workTypeId, volume, executorName },

@@ -39,8 +39,8 @@ describe('WorkLogForm', () => {
 			expect(screen.getByRole('button', { name: /добавить запись/i })).toBeInTheDocument()
 		})
 
-		it('отображает кнопку "Сохранить изменения" при наличии defaultValues', () => {
-			renderForm({ defaultValues: { executorName: 'Иванов А.В.' } })
+		it('отображает кнопку "Сохранить изменения" в режиме редактирования', () => {
+			renderForm({ mode: 'edit' })
 
 			expect(screen.getByRole('button', { name: /сохранить изменения/i })).toBeInTheDocument()
 		})

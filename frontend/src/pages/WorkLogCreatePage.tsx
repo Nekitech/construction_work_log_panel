@@ -30,6 +30,7 @@ export function WorkLogCreatePage() {
 
 			<div className="max-w-2xl">
 				<WorkLogForm
+					mode="create"
 					onSubmit={handleSubmit}
 					isSubmitting={createMutation.isPending}
 				/>

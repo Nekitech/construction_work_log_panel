@@ -4,12 +4,14 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import * as fs from 'fs'
 import * as path from 'path'
 import { AppModule } from './app.module'
+import { PrismaExceptionFilter } from './common/filters/prisma-exception.filter'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
 
-  app.enableCors()
+  app.enableCors({ origin: process.env.ALLOWED_ORIGIN ?? '*' })
   app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }))
+  app.useGlobalFilters(new PrismaExceptionFilter())
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle('Construction Work Log API')

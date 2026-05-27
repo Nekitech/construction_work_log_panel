@@ -15,12 +15,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { workLogFormSchema } from './WorkLogFormSchema'
 
 interface WorkLogFormProps {
+	mode?: 'create' | 'edit'
 	defaultValues?: Partial<WorkLogFormValues>
 	onSubmit: (values: WorkLogFormValues) => Promise<void>
 	isSubmitting?: boolean
 }
 
-export function WorkLogForm({ defaultValues, onSubmit, isSubmitting }: WorkLogFormProps) {
+export function WorkLogForm({ mode, defaultValues, onSubmit, isSubmitting }: WorkLogFormProps) {
 	const { options: workTypeOptions, isLoading: workTypesLoading } = useWorkTypeOptions()
 
 	const form = useForm<WorkLogFormValues>({
@@ -141,7 +142,7 @@ export function WorkLogForm({ defaultValues, onSubmit, isSubmitting }: WorkLogFo
 
 				<Button type="submit" disabled={isSubmitting}>
 					{isSubmitting && <Loader2 className="mr-2 size-4 animate-spin" />}
-					{defaultValues ? 'Сохранить изменения' : 'Добавить запись'}
+					{mode === 'edit' ? 'Сохранить изменения' : 'Добавить запись'}
 				</Button>
 			</form>
 		</Form>
