@@ -73,7 +73,7 @@ describe('WorkLogForm', () => {
 	})
 
 	describe('submit', () => {
-		it('Вызывает onSubmit с корректными данными при заполненной форме', async () => {
+		it('не вызывает onSubmit если дата не выбрана', async () => {
 			const user = userEvent.setup()
 			const onSubmit = vi.fn().mockResolvedValue(undefined)
 			renderForm({ onSubmit })
@@ -82,7 +82,6 @@ describe('WorkLogForm', () => {
 			await user.type(screen.getByPlaceholderText('0.00'), '15')
 			await user.click(screen.getByRole('button', { name: /добавить запись/i }))
 
-			// Дата не выбрана — onSubmit не должен быть вызван
 			await waitFor(() => {
 				expect(screen.getByText('Дата обязательна')).toBeInTheDocument()
 			})

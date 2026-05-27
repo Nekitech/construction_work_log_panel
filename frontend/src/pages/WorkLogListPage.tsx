@@ -39,10 +39,10 @@ export function WorkLogListPage() {
 		setPage(1)
 	}, [])
 
-	const handleExecutorSearchChange = useCallback((value: string) => {
+	function handleExecutorSearchChange(value: string) {
 		setExecutorSearch(value)
 		setPage(1)
-	}, [])
+	}
 
 	const { data: response, isLoading } = useWorkLogControllerFindAll(
 		{
